@@ -15,17 +15,15 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      password: {
+        type: Sequelize.STRING,
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+      image: {
+        type: Sequelize.STRING,
+      },
     });
   },
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface, _Sequelize) => {
     await queryInterface.dropTable('Users');
   }
 };
