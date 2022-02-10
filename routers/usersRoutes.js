@@ -9,6 +9,11 @@ router.get('/',
 usersMiddlewares.validateToken,
 usersController.getAll);
 
+router.get('/:id', 
+usersMiddlewares.validateToken,
+usersMiddlewares.validateUserId,
+usersController.getUserById);
+
 router.post('/', 
 usersMiddlewares.validateDisplayName,
 usersMiddlewares.validateEmail,

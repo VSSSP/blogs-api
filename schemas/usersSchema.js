@@ -62,6 +62,17 @@ const verifyIfEmailExists = async (email) => {
   return false;
 };
 
+const verifyIfUserExistsById = async (id) => {
+  const user = await User.findByPk(id);
+  if (!user) {
+    return {
+      code: 404,
+      message: 'User does not exist',
+    };
+  }
+  return false;
+};
+
 const loginFirstValidation = (email, password) => {
   if (email === undefined) {
     return {
@@ -118,6 +129,7 @@ module.exports = {
   emailValidation,
   passwordValidation,
   verifyIfEmailExists,
+  verifyIfUserExistsById,
   loginFirstValidation,
   loginSecondValidation,
   loginThirdValidation,

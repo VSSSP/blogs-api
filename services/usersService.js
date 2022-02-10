@@ -10,7 +10,13 @@ const createUser = async (user) => {
   return { code: 201, message: 'User created successfully' };
 };
 
+const getUserById = async (id) => {
+  const user = await User.findByPk(id);
+  return { code: 200, user };
+};
+
 module.exports = {
   getAll,
   createUser,
+  getUserById,
 };

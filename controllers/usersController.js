@@ -25,8 +25,14 @@ const login = async (req, res) => {
   res.status(200).json({ token });
 };
 
+const getUserById = async (req, res) => {
+  const user = await usersService.getUserById(req.params.id);
+  res.status(user.code).json(user.user);
+};
+
 module.exports = {
   getAll,
   createUser,
   login,
+  getUserById,
 };

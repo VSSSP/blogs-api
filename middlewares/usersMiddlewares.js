@@ -12,7 +12,6 @@ const validateDisplayName = (req, res, next) => {
 const validateEmail = (req, res, next) => {
   const { email } = req.body;
   const validEmail = usersSchema.emailValidation(email);
-  console.log(validEmail);
   if (validEmail) return res.status(validEmail.code).json({ message: validEmail.message });
   next();
 };
@@ -42,7 +41,6 @@ const validateLogin = async (req, res, next) => {
     return res.status(secondValidation.code).json({ message: secondValidation.message });
   }
   const thirdValidation = await usersSchema.loginThirdValidation(email, password);
-  console.log(thirdValidation);
   if (thirdValidation) {
     return res.status(thirdValidation.code).json({ message: thirdValidation.message });
   }
@@ -50,10 +48,17 @@ const validateLogin = async (req, res, next) => {
 };
 
 const validateToken = (req, res, next) => {
-  console.log(req.headers.authorization);
   const validToken = usersSchema.tokenValidation(req.headers.authorization);
   if (validToken) {
     return res.status(validToken.code).json({ message: validToken.message });
+  }
+  next();
+};
+
+const validateUserId = async (req, res, next) => {
+  const validId = await usersSchema.verifyIfUserExistsById(req.params.id);
+  if (validId) {
+    return res.status(validId.code).json({ message: validId.message });
   }
   next();
 };
@@ -65,4 +70,5 @@ module.exports = {
   validateExistingEmail,
   validateLogin,
   validateToken,
+  validateUserId,
 };
