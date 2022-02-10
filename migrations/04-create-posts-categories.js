@@ -5,12 +5,26 @@ module.exports = {
       postId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        foreignKey: true,
+        allowNull: false,
+        foreingKey: true,
+        references: {
+          model: 'BlogPosts',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       categoryId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        foreignKey: true,
+        allowNull: false,
+        foreingKey: true,
+        references: {
+          model: 'Categories',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     });
   },
