@@ -31,9 +31,28 @@ const validateExistingEmail = async (req, res, next) => {
   next();
 };
 
+const validateLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+  const firstValidation = usersSchema.loginFirstValidation(email, password);
+  if (firstValidation) {
+    return res.status(firstValidation.code).json({ message: firstValidation.message });
+  }
+  const secondValidation = usersSchema.loginSecondValidation(email, password);
+  if (secondValidation) {
+    return res.status(secondValidation.code).json({ message: secondValidation.message });
+  }
+  const thirdValidation = await usersSchema.loginThirdValidation(email, password);
+  console.log(thirdValidation);
+  if (thirdValidation) {
+    return res.status(thirdValidation.code).json({ message: thirdValidation.message });
+  }
+  next();
+};
+
 module.exports = {
   validateDisplayName,
   validateEmail,
   validatePassword,
   validateExistingEmail,
+  validateLogin,
 };

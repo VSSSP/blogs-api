@@ -24,6 +24,7 @@ const emailValidation = (email) => {
       code: 400,
       message: '"email" must be a valid email',
     };
+    // https://github.com/tryber/sd-014-a-project-talker-manager/pull/48/files
   }
   return false;
 };
@@ -55,9 +56,50 @@ const verifyIfEmailExists = async (email) => {
   return false;
 };
 
+const loginFirstValidation = (email, password) => {
+  if (email === undefined) {
+    return {
+      code: 400,
+      message: '"email" is required',
+    };
+  }
+  if (password === undefined) {
+    return {
+      code: 400,
+      message: '"password" is required',
+    };
+  }
+  return false;
+};
+
+const loginSecondValidation = (email, password) => {
+  if (email.length === 0) {
+    return { code: 400, message: '"email" is not allowed to be empty' };
+  } 
+  if (password.length === 0) {
+    return { code: 400, message: '"password" is not allowed to be empty' };
+  }
+  return false;
+};
+
+const loginThirdValidation = async (email, password) => {
+  const userEmail = await User.findOne({ where: { email } });
+  const userPassword = await User.findOne({ where: { password } });
+  if (!userEmail || !userPassword) {
+    return {
+      code: 400,
+      message: 'Invalid fields',
+    };
+  }
+  return false;
+};
+
 module.exports = {
   displayNameValidation,
   emailValidation,
   passwordValidation,
   verifyIfEmailExists,
+  loginFirstValidation,
+  loginSecondValidation,
+  loginThirdValidation,
 };

@@ -20,7 +20,13 @@ const createUser = async (req, res) => {
   res.status(user.code).json({ token });
 };
 
+const login = async (req, res) => {
+  const token = jwt.sign({ data: req.body }, 'JWS_SECRET', jwsConfig);
+  res.status(200).json({ token });
+};
+
 module.exports = {
   getAll,
   createUser,
+  login,
 };
