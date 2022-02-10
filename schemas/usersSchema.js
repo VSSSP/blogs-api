@@ -1,4 +1,10 @@
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+
+const jwtConfig = {
+  expiresIn: '1d',
+  algorithm: 'HS256',
+};
 
 const displayNameValidation = (displayName) => {
   if (displayName.length < 8) {
@@ -94,6 +100,19 @@ const loginThirdValidation = async (email, password) => {
   return false;
 };
 
+const tokenValidation = (token) => {
+  if (!token) return { code: 401, message: 'Token not found' };
+  try { 
+    jwt.verify(token, 'JWT_SECRET', jwtConfig);
+    return false;
+  } catch (error) {
+    return {
+      code: 401,
+      message: 'Expired or invalid token',
+    };
+  }
+};
+
 module.exports = {
   displayNameValidation,
   emailValidation,
@@ -102,4 +121,5 @@ module.exports = {
   loginFirstValidation,
   loginSecondValidation,
   loginThirdValidation,
+  tokenValidation,
 };

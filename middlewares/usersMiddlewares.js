@@ -49,10 +49,20 @@ const validateLogin = async (req, res, next) => {
   next();
 };
 
+const validateToken = (req, res, next) => {
+  console.log(req.headers.authorization);
+  const validToken = usersSchema.tokenValidation(req.headers.authorization);
+  if (validToken) {
+    return res.status(validToken.code).json({ message: validToken.message });
+  }
+  next();
+};
+
 module.exports = {
   validateDisplayName,
   validateEmail,
   validatePassword,
   validateExistingEmail,
   validateLogin,
+  validateToken,
 };

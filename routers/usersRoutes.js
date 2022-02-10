@@ -5,7 +5,9 @@ const usersMiddlewares = require('../middlewares/usersMiddlewares');
 
 const router = Router();
 
-router.get('/', usersController.getAll);
+router.get('/', 
+usersMiddlewares.validateToken,
+usersController.getAll);
 
 router.post('/', 
 usersMiddlewares.validateDisplayName,
