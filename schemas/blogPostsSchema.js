@@ -1,4 +1,4 @@
-const { Category } = require('../models');
+const { Category, BlogPost } = require('../models');
 
 const titleValidation = ({ title }) => {
   if (!title) return { code: 400, message: '"title" is required' };
@@ -21,8 +21,15 @@ const categoryIdsValidation = async ({ categoryIds }) => {
   return false;
 };
 
+const postIdValidation = async (id) => {
+  const checkIfPostExists = await BlogPost.findByPk(id);
+  if (!checkIfPostExists) return { code: 404, message: 'Post does not exist' };
+  return false;
+};
+
 module.exports = {
   titleValidation,
   contentValidation,
   categoryIdsValidation,
+  postIdValidation,
 };

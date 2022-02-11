@@ -24,8 +24,18 @@ const validateCategoryIds = async (req, res, next) => {
   next();
 };
 
+const validatePostId = async (req, res, next) => {
+  const { id } = req.params;
+  const validPostId = await blogPostsSchema.postIdValidation(id);
+  if (validPostId) {
+    return res.status(validPostId.code).json({ message: validPostId.message });
+  }
+  next();
+};
+
 module.exports = {
   validateTitle,
   validateContent,
   validateCategoryIds,
+  validatePostId,
 };

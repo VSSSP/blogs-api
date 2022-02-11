@@ -10,6 +10,11 @@ router.get('/',
 usersMiddlewares.validateToken,
 blogPostsController.getBlogPosts);
 
+router.get('/:id',
+usersMiddlewares.validateToken,
+blogPostsMiddlewares.validatePostId,
+blogPostsController.getBlogPostById);
+
 router.post('/', 
 usersMiddlewares.validateToken,
 blogPostsMiddlewares.validateTitle,
