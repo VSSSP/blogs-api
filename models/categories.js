@@ -7,8 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
   },
-  {
-    timestamps: false,
-  });
+  { timestamps: false });
+  categories.associate = (models) => {
+    categories.hasMany(models.PostCategory, {
+      as: 'PostsCategories',
+      foreignKey: 'categoryId',
+    });
+  };
   return categories;
 };

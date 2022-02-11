@@ -6,6 +6,10 @@ const usersMiddlewares = require('../middlewares/usersMiddlewares');
 
 const router = Router();
 
+router.get('/',
+usersMiddlewares.validateToken,
+blogPostsController.getBlogPosts);
+
 router.post('/', 
 usersMiddlewares.validateToken,
 blogPostsMiddlewares.validateTitle,
