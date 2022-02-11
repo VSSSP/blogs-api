@@ -21,4 +21,8 @@ usersMiddlewares.validatePassword,
 usersMiddlewares.validateExistingEmail,
 usersController.createUser);
 
+router.delete('/me', 
+usersMiddlewares.validateToken,
+usersController.deleteUser);
+
 module.exports = router;
