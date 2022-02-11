@@ -28,6 +28,13 @@ blogPostsMiddlewares.validateTitle,
 blogPostsMiddlewares.validateContent,
 blogPostsMiddlewares.validateCategory,
 blogPostsMiddlewares.validateUser,
+blogPostsMiddlewares.validatePostId,
 blogPostsController.editBlogPost);
+
+router.delete('/:id', 
+usersMiddlewares.validateToken,
+blogPostsMiddlewares.validatePostId,
+blogPostsMiddlewares.validateUser,
+blogPostsController.deleteBlogPost);
 
 module.exports = router;

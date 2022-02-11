@@ -34,6 +34,7 @@ const postIdValidation = async (id) => {
 };
 
 const userValidation = async (token, id) => {
+  if (!token) return { code: 401, message: 'Token not found' };
   const verifiedUser = jwt.verify(token, 'JWT_SECRET', jwtConfig);
   const { data: { email } } = verifiedUser;
   const getUserId = await User.findOne({ where: { email } });
