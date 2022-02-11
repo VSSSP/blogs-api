@@ -1,4 +1,10 @@
-const { Category, BlogPost } = require('../models');
+const jwt = require('jsonwebtoken');
+const { Category, BlogPost, User } = require('../models');
+
+const jwtConfig = {
+  expiresIn: '1d',
+  algorithm: 'HS256',
+};
 
 const titleValidation = ({ title }) => {
   if (!title) return { code: 400, message: '"title" is required' };
@@ -27,9 +33,27 @@ const postIdValidation = async (id) => {
   return false;
 };
 
+const userValidation = async (token, id) => {
+  const verifiedUser = jwt.verify(token, 'JWT_SECRET', jwtConfig);
+  const { data: { email } } = verifiedUser;
+  const getUserId = await User.findOne({ where: { email } });
+  const blogPost = await BlogPost.findByPk(id);
+  if (getUserId.id !== blogPost.userId) return { code: 401, message: 'Unauthorized user' };
+  return false;
+};
+
+const categoriesValidation = async ({ categoryIds }) => {
+  if (categoryIds) {
+    return { code: 400, message: 'Categories cannot be edited' };
+  }
+  return false;
+};
+
 module.exports = {
   titleValidation,
   contentValidation,
   categoryIdsValidation,
   postIdValidation,
+  userValidation,
+  categoriesValidation,
 };

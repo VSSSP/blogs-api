@@ -33,9 +33,29 @@ const validatePostId = async (req, res, next) => {
   next();
 };
 
+const validateUser = async (req, res, next) => {
+  const { authorization } = req.headers;
+  const { id } = req.params;
+  const validUser = await blogPostsSchema.userValidation(authorization, id);
+  if (validUser) {
+    return res.status(validUser.code).json({ message: validUser.message });
+  }
+  next();
+};
+
+const validateCategory = async (req, res, next) => {
+  const validCategory = await blogPostsSchema.categoriesValidation(req.body);
+  if (validCategory) {
+    return res.status(validCategory.code).json({ message: validCategory.message });
+  }
+  next();
+};
+
 module.exports = {
   validateTitle,
   validateContent,
   validateCategoryIds,
   validatePostId,
+  validateUser,
+  validateCategory,
 };

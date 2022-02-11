@@ -28,7 +28,7 @@ const getBlogPosts = async () => {
   return blogPosts;
 };
 
-const getBlogPostById = async (id) => {
+const findPost = async (id) => {
   const blogPost = await BlogPost.findOne({
     where: { id },
     include: [{
@@ -42,8 +42,21 @@ const getBlogPostById = async (id) => {
   return blogPost;
 };
 
+const getBlogPostById = async (id) => {
+  const blogPost = await findPost(id);
+  return blogPost;
+};
+
+const editBlogPost = async (id, title, content) => {
+  await BlogPost.update({ title, content, updated: new Date() }, { where: { id } });
+  const blogPost = await findPost(id);
+  console.log(blogPost);
+  return blogPost;
+};
+
 module.exports = {
   newPost,
   getBlogPosts,
   getBlogPostById,
+  editBlogPost,
 };

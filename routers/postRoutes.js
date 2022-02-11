@@ -22,4 +22,12 @@ blogPostsMiddlewares.validateContent,
 blogPostsMiddlewares.validateCategoryIds,
 blogPostsController.createBlogPost);
 
+router.put('/:id', 
+usersMiddlewares.validateToken,
+blogPostsMiddlewares.validateTitle,
+blogPostsMiddlewares.validateContent,
+blogPostsMiddlewares.validateCategory,
+blogPostsMiddlewares.validateUser,
+blogPostsController.editBlogPost);
+
 module.exports = router;
