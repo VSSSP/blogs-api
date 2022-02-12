@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { Category, BlogPost, User } = require('../models');
+const blogPostsService = require('../services/blogPostsService');
 
 const jwtConfig = {
   expiresIn: '1d',
@@ -50,6 +51,14 @@ const categoriesValidation = async ({ categoryIds }) => {
   return false;
 };
 
+const queryValidation = async (searchTerm) => {
+  if (searchTerm === '') {
+    const allPosts = await blogPostsService.getBlogPosts();
+    return { code: 200, allPosts };
+  }
+  return false;
+};
+
 module.exports = {
   titleValidation,
   contentValidation,
@@ -57,4 +66,5 @@ module.exports = {
   postIdValidation,
   userValidation,
   categoriesValidation,
+  queryValidation,
 };

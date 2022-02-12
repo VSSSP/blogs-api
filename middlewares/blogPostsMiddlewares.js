@@ -51,6 +51,16 @@ const validateCategory = async (req, res, next) => {
   next();
 };
 
+const validateQuery = async (req, res, next) => {
+  const { q } = req.query;
+  const validQuery = await blogPostsSchema.queryValidation(q);
+  console.log(validQuery);
+  if (validQuery) {
+    return res.status(validQuery.code).json(validQuery.allPosts);
+  }
+  next();
+};
+
 module.exports = {
   validateTitle,
   validateContent,
@@ -58,4 +68,5 @@ module.exports = {
   validatePostId,
   validateUser,
   validateCategory,
+  validateQuery,
 };

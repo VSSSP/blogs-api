@@ -31,10 +31,17 @@ const deleteBlogPost = async (req, res) => {
   res.status(blogPost.code).json();
 };
 
+const searchBlogPost = async (req, res) => {
+  const { q } = req.query;
+  const blogPosts = await blogPostsService.searchBlogPost(q);
+  res.status(200).json(blogPosts);
+};
+
 module.exports = {
   createBlogPost,
   getBlogPosts,
   getBlogPostById,
   editBlogPost,
   deleteBlogPost,
+  searchBlogPost,
 };
